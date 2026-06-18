@@ -1,20 +1,64 @@
 import type { MCPRequest, MCPResponse } from '@helix/types';
+import { analyzeTrust } from '@helix/ai';
+import type { CandidateProfile } from '@helix/types';
 
-async function handleTrustScore(_params: Record<string, unknown>): Promise<Record<string, unknown>> {
-  return { overall: 75, resumeConsistency: 70, careerProgressionConsistency: 80, evidenceDensity: 65, technicalSpecificity: 72, claimVerificationScore: 68, fraudRisk: 'LOW' };
+function isCandidateProfile(obj: unknown): obj is CandidateProfile {
+  if (typeof obj !== 'object' || obj === null) return false;
+  const p = obj as Record<string, unknown>;
+  return typeof p.id === 'string' && Array.isArray(p.experience) && Array.isArray(p.education) && Array.isArray(p.skills);
 }
 
-async function handleVerifyClaims(_params: Record<string, unknown>): Promise<Record<string, unknown>> {
-  return { totalClaims: 0, verifiedClaims: [], unverifiableClaims: [], contradictedClaims: [] };
+async function handleVerifyClaims(params: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const profile = params.candidateProfile as CandidateProfile;
+  if (!profile || !isCandidateProfile(profile)) {
+    return { error: 'Invalid or missing candidateProfile' };
+  }
+  const report = analyzeTrust(profile);
+  return {
+    candidateId: report.candidateId,
+    overallTrustScore: report.overallTrustScore,
+    claimCount: report.claimCount,
+    verifiedClaims: report.verifiedClaims,
+    suspiciousClaims: report.suspiciousClaims,
+    aiGeneratedProbability: report.aiGeneratedProbability,
+    anomalyScore: report.anomalyScore,
+    claims: report.claims,
+    redFlags: report.redFlags,
+  };
 }
 
-async function handleDetectAnomalies(_params: Record<string, unknown>): Promise<Record<string, unknown>> {
-  return { anomalies: [], riskLevel: 'LOW' };
+async function handleDetectAnomalies(params: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const profile = params.candidateProfile as CandidateProfile;
+  if (!profile || !isCandidateProfile(profile)) {
+    return { error: 'Invalid or missing candidateProfile' };
+  }
+  const report = analyzeTrust(profile);
+  return {
+    anomalyScore: report.anomalyScore,
+    aiGeneratedProbability: report.aiGeneratedProbability,
+    redFlags: report.redFlags,
+  };
+}
+
+async function handleCalculateTrustScore(params: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const profile = params.candidateProfile as CandidateProfile;
+  if (!profile || !isCandidateProfile(profile)) {
+    return { error: 'Invalid or missing candidateProfile' };
+  }
+  const report = analyzeTrust(profile);
+  return {
+    candidateId: report.candidateId,
+    trustScore: report.overallTrustScore,
+    suspiciousClaims: report.suspiciousClaims,
+    totalClaims: report.claimCount,
+  };
 }
 
 const toolHandlers: Record<string, (params: Record<string, unknown>) => Promise<unknown>> = {
-  calculate_trust_score: handleTrustScore,
+  calculate_trust_score: handleCalculateTrustScore,
+  score_trust: handleCalculateTrustScore,
   verify_claims: handleVerifyClaims,
+  detect_anomalies: handleDetectAnomalies,
   detect_resume_anomalies: handleDetectAnomalies,
 };
 
