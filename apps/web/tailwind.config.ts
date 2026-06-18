@@ -20,8 +20,15 @@ const config: Config = {
         muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
         accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
         card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
+        surface: 'hsl(var(--surface))',
+        success: { DEFAULT: 'hsl(var(--success))', foreground: '#ffffff' },
+        warning: { DEFAULT: 'hsl(var(--warning))', foreground: '#ffffff' },
+        info: { DEFAULT: 'hsl(var(--info))', foreground: '#ffffff' },
       },
       borderRadius: { lg: 'var(--radius)', md: 'calc(var(--radius) - 2px)', sm: 'calc(var(--radius) - 4px)' },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
     },
   },
 };
