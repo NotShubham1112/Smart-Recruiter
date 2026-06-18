@@ -1,0 +1,17 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API
+        run: docker build -f infrastructure/docker/Dockerfile.api -t helix-api .
+      - name: Build Web
+        run: docker build -f infrastructure/docker/Dockerfile.web -t helix-web .
+      - name: Build Orchestrator
+        run: docker build -f infrastructure/docker/Dockerfile.orchestrator -t helix-orchestrator .
