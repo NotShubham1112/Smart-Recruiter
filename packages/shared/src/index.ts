@@ -6,3 +6,5 @@ export { AgentReviewSchema, AgentTypeSchema, HiringRecommendationSchema } from '
 export { ReportSummarySchema } from './schemas/report';
 export { calculateHelixScore, normalizeScore, clampScore, weightedAverage } from './utils/scoring';
 export { HELIX_SCORE_WEIGHTS, AGENT_TYPES, DEBOUNCE_MS, DEFAULT_PAGE_SIZE, MAX_FILE_SIZE_BYTES } from './constants';
+export { rankCandidates, getScoreLabel, getScoreColor } from './ranking';
+export type { CandidateScore } from './ranking';
