@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helix-orchestrator
+  labels:
+    app: helix-orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helix-orchestrator
+  template:
+    metadata:
+      labels:
+        app: helix-orchestrator
+    spec:
+      containers:
+        - name: orchestrator
+          image: helix-orchestrator:latest
+          env:
+            - name: REDIS_HOST
+              value: helix-redis

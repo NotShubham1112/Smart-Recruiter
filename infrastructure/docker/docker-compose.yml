@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: helix
+      POSTGRES_PASSWORD: helix
+      POSTGRES_DB: helix
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/helix
+    ports:
+      - "7687:7687"
+      - "7474:7474"
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.api
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: postgresql://helix:helix@postgres:5432/helix
+      REDIS_HOST: redis
+
+  orchestrator:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.orchestrator
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+
+volumes:
+  postgres_data:
