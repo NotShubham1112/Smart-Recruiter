@@ -12,31 +12,32 @@
     "clean": "rm -rf .next dist"
   },
   "dependencies": {
-    "@helix/ui": "workspace:*",
     "@helix/types": "workspace:*",
-    "next": "^16.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "zustand": "^5.0.0",
-    "@tanstack/react-query": "^5.64.0",
-    "react-hook-form": "^7.54.0",
+    "@helix/ui": "workspace:*",
     "@hookform/resolvers": "^3.9.0",
-    "zod": "^3.24.0",
-    "recharts": "^2.15.0",
-    "lucide-react": "^0.468.0",
-    "socket.io-client": "^4.8.0",
+    "@tanstack/react-query": "^5.64.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^0.468.0",
+    "next": "^16.0.0",
+    "next-themes": "^0.4.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.0",
+    "recharts": "^2.15.0",
+    "socket.io-client": "^4.8.0",
     "tailwind-merge": "^2.6.0",
-    "next-themes": "^0.4.0"
+    "zod": "^3.24.0",
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.7.0",
+    "postcss": "^8.4.0",
     "tailwindcss": "^4.0.0",
-    "@tailwindcss/postcss": "^4.0.0",
-    "postcss": "^8.4.0"
+    "typescript": "^5.7.0"
   }
 }
