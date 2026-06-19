@@ -22,7 +22,7 @@ export function HeroPrompt() {
       className="relative flex flex-col items-center py-16 px-4"
     >
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[400px] bg-info/5 rounded-full blur-3xl" />
+        <div className="w-[600px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
       </div>
 
       <motion.p
@@ -57,7 +57,7 @@ export function HeroPrompt() {
                 <Mic className="w-5 h-5" />
               </button>
             </div>
-            <button className="flex items-center gap-2 px-4 py-2 bg-info text-white rounded-lg text-sm font-medium hover:bg-info/90 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
               <span>Analyze</span>
               <ArrowRight className="w-4 h-4" />
             </button>

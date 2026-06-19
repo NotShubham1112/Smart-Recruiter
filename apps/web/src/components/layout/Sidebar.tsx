@@ -82,8 +82,8 @@ export function Sidebar({ onCollapse }: SidebarProps) {
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-info/10 text-info border-l-2 border-info'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
               }`}
             >
               <item.icon className="w-5 h-5 flex-shrink-0" />

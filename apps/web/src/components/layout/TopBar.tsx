@@ -21,7 +21,7 @@ export function TopBar() {
   const title = pageTitles[pathname] || 'Helix';
 
   return (
-    <header className="sticky top-0 z-30 h-14 bg-background/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-6">
+    <header className="sticky top-0 z-30 h-14 bg-white/80 backdrop-blur-xl border-b border-border flex items-center justify-between px-6">
       <h1 className="text-lg font-semibold text-foreground">{title}</h1>
 
       <div className="flex items-center gap-3">

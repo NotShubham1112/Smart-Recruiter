@@ -1,69 +1,67 @@
+'use client';
+
 import Link from 'next/link';
 import { Badge } from '@helix/ui';
 import { Card, CardContent, CardHeader, CardTitle } from '@helix/ui';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@helix/ui';
-
-interface MockRole {
-  id: string;
-  title: string;
-  department: string;
-  candidateCount: number;
-  topScore: number;
-  minScore: number;
-  urgency: 'High' | 'Medium' | 'Low';
-}
-
-const mockRoles: MockRole[] = [
-  { id: 'r1', title: 'Senior Frontend Engineer', department: 'Engineering', candidateCount: 12, topScore: 92, minScore: 54, urgency: 'High' },
-  { id: 'r2', title: 'Backend Developer', department: 'Engineering', candidateCount: 8, topScore: 87, minScore: 48, urgency: 'Medium' },
-  { id: 'r3', title: 'Product Designer', department: 'Design', candidateCount: 5, topScore: 78, minScore: 61, urgency: 'Low' },
-  { id: 'r4', title: 'Data Scientist', department: 'Data', candidateCount: 10, topScore: 90, minScore: 52, urgency: 'High' },
-  { id: 'r5', title: 'Engineering Manager', department: 'Engineering', candidateCount: 6, topScore: 85, minScore: 59, urgency: 'Medium' },
-];
-
-const urgencyVariant: Record<string, 'destructive' | 'secondary' | 'outline'> = {
-  High: 'destructive',
-  Medium: 'secondary',
-  Low: 'outline',
-};
+import { useRoles } from '@/hooks/useRoles';
 
 export default function RolesPage() {
+  const { data: roles, isLoading } = useRoles();
+
+  const urgencyVariant: Record<string, 'destructive' | 'secondary' | 'outline'> = {
+    High: 'destructive',
+    Medium: 'secondary',
+    Low: 'outline',
+  };
+
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Role Intelligence</h1>
+    <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-foreground mb-1">Role Intelligence</h1>
+        <p className="text-sm text-muted-foreground">
+          {isLoading ? 'Loading...' : `${roles?.length || 0} active roles`}
+        </p>
+      </div>
+
       <Card>
         <CardHeader><CardTitle>All Roles</CardTitle></CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Department</TableHead>
-                <TableHead>Candidates</TableHead>
-                <TableHead>Top Score</TableHead>
-                <TableHead>Range</TableHead>
-                <TableHead>Urgency</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockRoles.map((role) => (
-                <TableRow key={role.id}>
-                  <TableCell>
-                    <Link href={`/roles/${role.id}`} className="font-medium text-primary hover:underline">
-                      {role.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{role.department}</TableCell>
-                  <TableCell>{role.candidateCount}</TableCell>
-                  <TableCell>{role.topScore}</TableCell>
-                  <TableCell>{role.minScore} – {role.topScore}</TableCell>
-                  <TableCell>
-                    <Badge variant={urgencyVariant[role.urgency]}>{role.urgency}</Badge>
-                  </TableCell>
-                </TableRow>
+          {isLoading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-12 bg-background rounded animate-pulse" />
               ))}
-            </TableBody>
-          </Table>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {(roles || []).map((role) => (
+                <div
+                  key={role.id}
+                  className="flex items-center justify-between p-3 bg-background border border-border rounded-lg hover:border-info/50 transition-colors"
+                >
+                  <div>
+                    <div className="text-sm font-medium text-foreground">{role.title}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {role.department} • {role.seniority_level} • {role.experience_years}+ yrs
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap gap-1">
+                      {(Array.isArray(role.required_skills) ? role.required_skills.slice(0, 3) : []).map((s: string) => (
+                        <span key={s} className="px-2 py-0.5 bg-card border border-border rounded text-[10px] text-muted-foreground">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                    <Badge variant={urgencyVariant['Medium'] || 'outline'}>Active</Badge>
+                  </div>
+                </div>
+              ))}
+              {(!roles || roles.length === 0) && (
+                <p className="text-center text-muted-foreground py-8">No roles yet.</p>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

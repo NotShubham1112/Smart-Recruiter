@@ -54,7 +54,7 @@ export function CommandCenter() {
           onClick={close}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
           {/* Modal */}
           <motion.div
@@ -86,7 +86,7 @@ export function CommandCenter() {
                 <button
                   key={action.label}
                   className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                    i === selectedIndex ? 'bg-info/10 text-info' : 'text-foreground hover:bg-background'
+                    i === selectedIndex ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-muted'
                   }`}
                   onMouseEnter={() => setSelectedIndex(i)}
                 >
